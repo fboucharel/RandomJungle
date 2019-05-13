@@ -215,9 +215,9 @@ def RandomJungle( N , K ) :
         df_X_test_pred = pd.DataFrame( pred )
         df_X_test_pred = df_X_test_pred[ sorted( df_X_test_pred.columns ) ]
         
-        # Modèles contre parmi les K modèles :
+        # % modèles contre parmi les K modèles :
         df_X_test_pred[ 'cons' ] = df_X_test_pred.sum( axis = 1 ).apply( lambda x : ( K - x ) / K )
-        # Si moins de la moitié des modèles sont contre alors prédiction = 1, 0 sinon
+        # Si moins de 50 % des modèles sont contre alors prédiction = 1, 0 sinon
         df_X_test_pred[ 'y_pred' ] = np.where( df_X_test_pred[ 'cons' ] < 0.50 , 1 , 0 )
         # y_real pour information :
         df_X_test_pred[ 'y_real' ] = y_test
@@ -230,6 +230,7 @@ def RandomJungle( N , K ) :
     return lst_bsl_auc , lst_randjgl_auc 
 
 
+# ### N Expériences ( pour chaque expérience K RandomForest = RandomJungle :
 
 bsl_vs_randjgl_auc = RandomJungle( N = 100 , K = 500 )
 
