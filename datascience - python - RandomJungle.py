@@ -170,8 +170,6 @@ def RandomJungle( N , K ) :
         
         # [ II ] RandomJungle :
         
-        pred_train = {}
-        
         lst_auc = []
         # RandomJungle - Taille des échantillons à mettre en face des fraudes :
         spl_siz = len( df_train_1.index )
@@ -203,14 +201,8 @@ def RandomJungle( N , K ) :
             auc = roc_auc_score( y_test , y_test_pred )
             lst_auc.append( auc )
             #print( 'i : {0} | j : {1} | RandomForest | auc (test dataset) : \n {2}'.format( i , j , auc ) )
-    
-            x_train_pred = clf.predict( X_train )
-            col = 'x_pred_' + str( j ) 
-            pred_train[ col ] = x_train_pred
-    
-        df_X_train_pred = pd.DataFrame( pred_train )
-        df_X_train_pred = df_X_train_pred[ sorted( df_X_train_pred.columns ) ]
         
+        # Dictionnaire pour stockage des prédictions sur test dataset X_test :
         pred = {}
 
         for j in range( K ) :
@@ -223,10 +215,14 @@ def RandomJungle( N , K ) :
         df_X_test_pred = pd.DataFrame( pred )
         df_X_test_pred = df_X_test_pred[ sorted( df_X_test_pred.columns ) ]
         
+        # Modèles contre parmi les K modèles :
         df_X_test_pred[ 'cons' ] = df_X_test_pred.sum( axis = 1 ).apply( lambda x : ( K - x ) / K )
+        # Si moins de la moitié des modèles sont contre alors prédiction = 1, 0 sinon
         df_X_test_pred[ 'y_pred' ] = np.where( df_X_test_pred[ 'cons' ] < 0.50 , 1 , 0 )
+        # y_real pour information :
         df_X_test_pred[ 'y_real' ] = y_test
         
+        # Calcul AUC sur test dataset :
         auc = roc_auc_score( y_test , df_X_test_pred[ 'y_pred' ] )
         print( '[ i : {0} | RandomJungle | auc : {1:.3f} ]'.format( i , auc ) )
         lst_randjgl_auc.append( auc )
