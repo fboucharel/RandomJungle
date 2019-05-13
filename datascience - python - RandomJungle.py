@@ -169,6 +169,9 @@ def RandomJungle( N , K ) :
         
         
         # [ II ] RandomJungle :
+        
+        pred_train = {}
+        
         lst_auc = []
         # RandomJungle - Taille des échantillons à mettre en face des fraudes :
         spl_siz = len( df_train_1.index )
