@@ -135,7 +135,7 @@ cfu_mtx = confusion_matrix( y_test , y_test_pred )
 auc = roc_auc_score( y_test , y_test_pred )
     
 #print( 'confusion matrix (test dataset):\n {0}'.format( cfu_mtx ) )
-print( 'baseline | auc (test dataset) : \n {0:.2f}'.format( auc ) )
+print( 'baseline | auc (test dataset) : \n {0:.3f}'.format( auc ) )
 print( 'baseline | confusion matrix (test dataset) : \n {0}'.format( cfu_mtx ) )
 
 
@@ -228,7 +228,7 @@ def RandomJungle( N , K ) :
         df_X_test_pred[ 'y_real' ] = y_test
         
         auc = roc_auc_score( y_test , df_X_test_pred[ 'y_pred' ] )
-        print( '[ i : {0} | RandomJungle | auc : {1:.2f} ]'.format( i , auc ) )
+        print( '[ i : {0} | RandomJungle | auc : {1:.3f} ]'.format( i , auc ) )
         lst_randjgl_auc.append( auc )
  
     return lst_bsl_auc , lst_randjgl_auc 
